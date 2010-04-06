@@ -1,5 +1,6 @@
 package edu.hawaii.wattdroid;
 
+import org.wattdepot.client.WattDepotClient;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -8,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -21,7 +23,17 @@ public class WattDroid extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
-	  
+	  Log.i("wattdroid", "Program Began onCreate()");
+	  //WattDepotClient client = new WattDepotClient("http://server.wattdepot.org:8182/wattdepot/");
+	    /*
+	  	if (client.isHealthy()) {
+	    	//Log.i("WattDepot server found.");
+	    	Log.i("boah", "AAAAAAAAAAAAAAAAAAAAA");
+	    }
+	    else {
+	    	Log.i("boah", "BBBBBBBBBBBBBBBBBBB");
+	    }
+	    */
 	  //automatically adds a ListView  to fill the entire screen of the ListActivity
 	  setListAdapter(new ArrayAdapter<String>(this, R.layout.item, COUNTRIES));
 
