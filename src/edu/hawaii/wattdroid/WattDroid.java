@@ -7,8 +7,10 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
@@ -19,17 +21,18 @@ import android.widget.TextView;
  * http://www.warriorpoint.com/blog/2009/07/19/android-simplified-source-
  * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
  */
-public class WattDroid extends Activity {
+public class WattDroid extends ListActivity {
 	
 	private final String MY_DEBUG_TAG = "WeatherForcaster"; 
 	
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle icicle) {
-         super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
 
          /* Create a new TextView to display the parsingresult later. */
          TextView tv = new TextView(this);
+    	
          try {
               /* Create a URL we want to load some xml-data from. */
               URL url = new URL("http://server.wattdepot.org:8182/wattdepot/sources.xml");
@@ -53,7 +56,8 @@ public class WattDroid extends Activity {
                                             myExampleHandler.getParsedData();
 
               /* Set the result to be displayed in our GUI. */
-              tv.setText(parsedExampleDataSet.toString());
+              //tv.setText(parsedExampleDataSet.toString());
+              setListAdapter(new ArrayAdapter<String>(this, R.layout.item, parsedExampleDataSet.getAllSources()));
               
          } catch (Exception e) {
               /* Display any Error to the GUI. */
@@ -61,6 +65,6 @@ public class WattDroid extends Activity {
               Log.e(MY_DEBUG_TAG, "WeatherQueryError", e);
          }
          /* Display the TextView. */
-         this.setContentView(tv);
+         //this.setContentView(tv);
     }
 }

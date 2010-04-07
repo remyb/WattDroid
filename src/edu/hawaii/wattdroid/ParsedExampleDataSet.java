@@ -18,6 +18,10 @@ public class ParsedExampleDataSet {
     	sourceList.add(extractedString);
         this.extractedString = extractedString;
     }
+    
+    public String[] getAllSources() {
+    	return (String[]) sourceList.toArray();
+    }
 
     public int getExtractedInt() {
          return extractedInt;
