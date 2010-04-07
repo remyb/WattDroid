@@ -20,7 +20,12 @@ public class ParsedExampleDataSet {
     }
     
     public String[] getAllSources() {
-    	return (String[]) sourceList.toArray();
+    	return this.sourceList.toArray(new String[0]);
+    }
+    
+    public String[] getAllLocations() {
+    	// STUB: Return the list of source names
+    	return null;
     }
 
     public int getExtractedInt() {

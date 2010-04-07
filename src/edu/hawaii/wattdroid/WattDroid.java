@@ -22,7 +22,7 @@ import android.widget.TextView;
  * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
  */
 public class WattDroid extends ListActivity {
-	
+	static final String[] SOURCES = new String[] {"bob","mark"};
 	private final String MY_DEBUG_TAG = "WeatherForcaster"; 
 	
     /** Called when the activity is first created. */
@@ -56,15 +56,20 @@ public class WattDroid extends ListActivity {
                                             myExampleHandler.getParsedData();
 
               /* Set the result to be displayed in our GUI. */
-              //tv.setText(parsedExampleDataSet.toString());
-              setListAdapter(new ArrayAdapter<String>(this, R.layout.item, parsedExampleDataSet.getAllSources()));
+              tv.setText(parsedExampleDataSet.toString());
+              String[] sources = parsedExampleDataSet.getAllSources();
+              Log.d("wattdroid", "I just placed sources into an array");
+              setListAdapter(new ArrayAdapter<String>(this, R.layout.item, sources ));
               
          } catch (Exception e) {
               /* Display any Error to the GUI. */
               tv.setText("Error: " + e.getMessage());
-              Log.e(MY_DEBUG_TAG, "WeatherQueryError", e);
+              Log.e(MY_DEBUG_TAG, "wattdroid", e);
          }
          /* Display the TextView. */
          //this.setContentView(tv);
     }
+    
+
+    
 }
