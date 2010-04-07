@@ -14,21 +14,22 @@ import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
 import android.sax.RootElement;
+import android.util.Log;
 import android.util.Xml;
 
 public class BaseFeedParser {
 
-	static String feedUrlString = "http://www.androidster.com/android_news.rss";
+	static String feedUrlString = "http://server.wattdepot.org:8182/wattdepot/sources";
 	
 	// names of the XML tags
-	static final String RSS = "rss";
-	static final String CHANNEL = "channel";
-	static final String ITEM = "item";
+	static final String RSS = "xml";
+	static final String CHANNEL = "SourceIndex";
+	static final String ITEM = "SourceRef";
 	
-	static final String PUB_DATE = "pubDate";
-	static final String DESCRIPTION = "description";
-	static final String LINK = "link";
-	static final String TITLE = "title";
+	static final String PUB_DATE = "Href";
+	static final String DESCRIPTION = "Href";
+	static final String LINK = "Href";
+	static final String TITLE = "Href";
 	
 	private final URL feedUrl;
 
@@ -51,6 +52,7 @@ public class BaseFeedParser {
 	public List<Message> parse() {
 		final Message currentMessage = new Message();
 		RootElement root = new RootElement(RSS);
+		Log.d("wattdroid", "HI IM HERE" +root.toString());
 		final List<Message> messages = new ArrayList<Message>();
 		Element itemlist = root.getChild(CHANNEL);
 		Element item = itemlist.getChild(ITEM);
@@ -59,6 +61,7 @@ public class BaseFeedParser {
 				messages.add(currentMessage.copy());
 			}
 		});
+		
 		item.getChild(TITLE).setEndTextElementListener(new EndTextElementListener(){
 			public void end(String body) {
 				currentMessage.setTitle(body);

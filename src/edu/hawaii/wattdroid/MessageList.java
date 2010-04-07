@@ -32,7 +32,7 @@ public class MessageList extends ListActivity {
 	    		new ArrayAdapter<String>(this, R.layout.list,titles);
 	    	this.setListAdapter(adapter);
     	} catch (Throwable t){
-    		Log.e("AndroidNews",t.getMessage(),t);
+    		Log.e("wattdroid",t.getMessage(),t);
     	}
     }
     

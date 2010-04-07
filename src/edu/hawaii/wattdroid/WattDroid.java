@@ -1,17 +1,15 @@
 package edu.hawaii.wattdroid;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.hawaii.wattdroid.BaseFeedParser;
-import edu.hawaii.wattdroid.Message;
-import edu.hawaii.wattdroid.R;
-
-import android.app.ListActivity;
+import java.net.URL;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 /**
  * ListView  is a ViewGroup  that creates a list of scrollable items.
@@ -21,31 +19,48 @@ import android.widget.ArrayAdapter;
  * http://www.warriorpoint.com/blog/2009/07/19/android-simplified-source-
  * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
  */
-public class WattDroid extends ListActivity {
+public class WattDroid extends Activity {
 	
-	private List<Message> messages;
+	private final String MY_DEBUG_TAG = "WeatherForcaster"; 
 	
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        setContentView(R.layout.main);
-        loadFeed();
-    }
+         super.onCreate(icicle);
 
-	private void loadFeed(){
-    	try{
-	    	BaseFeedParser parser = new BaseFeedParser();
-	    	messages = parser.parse();
-	    	List<String> titles = new ArrayList<String>(messages.size());
-	    	for (Message msg : messages){
-	    		titles.add(msg.getTitle());
-	    	}
-	    	ArrayAdapter<String> adapter = 
-	    		new ArrayAdapter<String>(this, R.layout.list,titles);
-	    	this.setListAdapter(adapter);
-    	} catch (Throwable t){
-    		Log.e("AndroidNews",t.getMessage(),t);
-    	}
+         /* Create a new TextView to display the parsingresult later. */
+         TextView tv = new TextView(this);
+         try {
+              /* Create a URL we want to load some xml-data from. */
+              URL url = new URL("http://www.anddev.org/images/tut/basic/parsingxml/example.xml");
+
+              /* Get a SAXParser from the SAXPArserFactory. */
+              SAXParserFactory spf = SAXParserFactory.newInstance();
+              SAXParser sp = spf.newSAXParser();
+
+              /* Get the XMLReader of the SAXParser we created. */
+              XMLReader xr = sp.getXMLReader();
+              /* Create a new ContentHandler and apply it to the XML-Reader*/
+              ExampleHandler myExampleHandler = new ExampleHandler();
+              xr.setContentHandler(myExampleHandler);
+              
+              /* Parse the xml-data from our URL. */
+              xr.parse(new InputSource(url.openStream()));
+              /* Parsing has finished. */
+
+              /* Our ExampleHandler now provides the parsed data to us. */
+              ParsedExampleDataSet parsedExampleDataSet =
+                                            myExampleHandler.getParsedData();
+
+              /* Set the result to be displayed in our GUI. */
+              tv.setText(parsedExampleDataSet.toString());
+              
+         } catch (Exception e) {
+              /* Display any Error to the GUI. */
+              tv.setText("Error: " + e.getMessage());
+              Log.e(MY_DEBUG_TAG, "WeatherQueryError", e);
+         }
+         /* Display the TextView. */
+         this.setContentView(tv);
     }
-    
 }
