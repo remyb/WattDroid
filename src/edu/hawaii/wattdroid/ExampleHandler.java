@@ -44,17 +44,12 @@ public class ExampleHandler extends DefaultHandler{
      @Override
      public void startElement(String namespaceURI, String localName,
                String qName, Attributes atts) throws SAXException {
-          if (localName.equals("outertag")) {
+          if (localName.equals("SourceIndex")) {
                this.in_outertag = true;
-          }else if (localName.equals("innertag")) {
+          }else if (localName.equals("SourceRef")) {
                this.in_innertag = true;
-          }else if (localName.equals("mytag")) {
-               this.in_mytag = true;
-          }else if (localName.equals("tagwithnumber")) {
-               // Extract an Attribute
-               String attrValue = atts.getValue("thenumber");
-               int i = Integer.parseInt(attrValue);
-               myParsedExampleDataSet.setExtractedInt(i);
+               String attrValue = atts.getValue("Href");          
+               myParsedExampleDataSet.setExtractedString(attrValue);
           }
      }
      
@@ -63,14 +58,10 @@ public class ExampleHandler extends DefaultHandler{
      @Override
      public void endElement(String namespaceURI, String localName, String qName)
                throws SAXException {
-          if (localName.equals("outertag")) {
+          if (localName.equals("SourceIndex")) {
                this.in_outertag = false;
-          }else if (localName.equals("innertag")) {
+          }else if (localName.equals("SourceRef")) {
                this.in_innertag = false;
-          }else if (localName.equals("mytag")) {
-               this.in_mytag = false;
-          }else if (localName.equals("tagwithnumber")) {
-               // Nothing to do here
           }
      }
      

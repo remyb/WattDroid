@@ -32,7 +32,7 @@ public class WattDroid extends Activity {
          TextView tv = new TextView(this);
          try {
               /* Create a URL we want to load some xml-data from. */
-              URL url = new URL("http://www.anddev.org/images/tut/basic/parsingxml/example.xml");
+              URL url = new URL("http://server.wattdepot.org:8182/wattdepot/sources.xml");
 
               /* Get a SAXParser from the SAXPArserFactory. */
               SAXParserFactory spf = SAXParserFactory.newInstance();
