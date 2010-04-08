@@ -15,7 +15,7 @@ public class ParsedExampleDataSet {
     }
     public void setExtractedString(String extractedString) {
     	Log.i("wattdroid", "adding sting " + extractedString);
-    	sourceList.add(extractedString);
+    	sourceList.add(extractedString.substring(extractedString.lastIndexOf("/")+1));
         this.extractedString = extractedString;
     }
     
