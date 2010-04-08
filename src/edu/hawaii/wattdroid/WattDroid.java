@@ -9,8 +9,13 @@ import org.xml.sax.XMLReader;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+import android.view.View;
 
 /**
  * ListView  is a ViewGroup  that creates a list of scrollable items.
@@ -54,14 +59,27 @@ public class WattDroid extends ListActivity {
                                             myExampleHandler.getParsedData();
 
               /* Set the result to be displayed in our GUI. */
-              tv.setText(parsedExampleDataSet.toString());
+              //tv.setText(parsedExampleDataSet.toString());
               String[] sources = parsedExampleDataSet.getAllSources();
               Log.d("wattdroid", "I just placed sources into an array");
               setListAdapter(new ArrayAdapter<String>(this, R.layout.item, sources ));
               
+              /* Following is for Toast temp spot, change this to use new activity*/
+              ListView lv = getListView();
+              lv.setTextFilterEnabled(true);
+              lv.setOnItemClickListener(new OnItemClickListener() {
+                  public void onItemClick(AdapterView<?> parent, View view,
+                      int position, long id) {
+                    // When clicked, show a toast with the TextView text
+                    Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
+                        Toast.LENGTH_SHORT).show();
+                  }
+                });
+              
+              
          } catch (Exception e) {
               /* Display any Error to the GUI. */
-              tv.setText("Error: " + e.getMessage());
+              tv.setText("Whoops! WattDroid made a booboo!: " + e.getMessage());
               Log.e(MY_DEBUG_TAG, "wattdroid", e);
          }
          /* Display the TextView. */
