@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, wattdroid!</string>
-    <string name="app_name">wattdroid</string>
+    <string name="hello">Hello, WattDroid</string>
+    <string name="app_name">WattDroid</string>
+    <string name="main_title">WattDroid</string> 
+    <string name="continue_label">Continue</string> 
+    <string name="new_game_label">New Game</string> 
+    <string name="about_label">About</string> 
+    <string name="exit_label">Exit</string>
+    <string name="about_title">About WattDroid</string>
+	<string name="about_text">\ WattDroid is a mobile energy application 
+		that allows users to monitor energy usage <i>live</i>.  It works
+		with WattDepot Servers. </string>
 </resources>

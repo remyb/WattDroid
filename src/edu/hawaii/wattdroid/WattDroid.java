@@ -6,7 +6,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,6 @@ import android.widget.TextView;
  * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
  */
 public class WattDroid extends ListActivity {
-	static final String[] SOURCES = new String[] {"bob","mark"};
 	private final String MY_DEBUG_TAG = "WeatherForcaster"; 
 	
     /** Called when the activity is first created. */
