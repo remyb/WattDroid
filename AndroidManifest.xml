@@ -4,21 +4,22 @@
       android:versionName="1.0" package="edu.hawaii.wattdroid">
       <uses-permission android:name="android.permission.INTERNET" />
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".Intro"
+        <activity android:name=".WattDroid"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
+        </activity>  
 		<activity android:name=".About" 
 			android:label="@string/about_title"
 			android:theme="@android:style/Theme.Dialog" >
 		</activity>
-		<activity android:name=".WattDroid" 
-			android:label="@string/about_title" >
-			
+		<activity android:name=".Intro" 
+			android:label="@string/about_title" >		
+		</activity>
+		<activity android:name=".SourceView" 
+			android:label="@string/about_title" >		
 		</activity>
 		
     </application>

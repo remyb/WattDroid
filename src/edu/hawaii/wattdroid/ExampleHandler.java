@@ -3,6 +3,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler; 
 
+import android.util.Log;
+
 
 public class ExampleHandler extends DefaultHandler{
 
@@ -50,6 +52,16 @@ public class ExampleHandler extends DefaultHandler{
                this.in_innertag = true;
                String attrValue = atts.getValue("Href");          
                myParsedExampleDataSet.setExtractedString(attrValue);
+          } else if ( 
+        		localName.equals("Name")   ||
+      		    localName.equals("Owner")  ||
+    		    localName.equals("Public") ||
+    		    localName.equals("Virtual") ||
+    		    localName.equals("Coordinates") ||
+    		    localName.equals("Location") ||
+    		    localName.equals("Description")) {
+        	  Log.d("wattdroid", "I found a Public...");
+        	  this.in_mytag = true;
           }
      }
      
@@ -62,6 +74,15 @@ public class ExampleHandler extends DefaultHandler{
                this.in_outertag = false;
           }else if (localName.equals("SourceRef")) {
                this.in_innertag = false;
+          } else if(
+        		    localName.equals("Name")   ||
+        		    localName.equals("Owner")  ||
+        		    localName.equals("Public") ||
+        		    localName.equals("Virtual") ||
+        		    localName.equals("Coordinates") ||
+        		    localName.equals("Location") ||
+        		    localName.equals("Description")) {
+        	  this.in_mytag = false;
           }
      }
      
@@ -69,8 +90,10 @@ public class ExampleHandler extends DefaultHandler{
       * <tag>characters</tag> */
 	     @Override
 	    public void characters(char ch[], int start, int length) {
+	    	  Log.d("wattdroid", "I found source content to parse...");
 	          if(this.in_mytag){
-	          myParsedExampleDataSet.setExtractedString(new String(ch, start, length));
+	        	  Log.d("wattdroid", "Found mytag...setting extractedStringInnerContent...");
+	        	  myParsedExampleDataSet.setExtractedStringInnerContent(new String(ch, start, length));
 	          }
 	     }
 }

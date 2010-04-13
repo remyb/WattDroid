@@ -1,19 +1,19 @@
 package edu.hawaii.wattdroid;
 
-
 import java.net.URL;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
 
@@ -26,7 +26,7 @@ import android.view.View;
  * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
  */
 public class WattDroid extends ListActivity {
-	private final String MY_DEBUG_TAG = "WeatherForcaster"; 
+	private final String MY_DEBUG_TAG = "wattdroid"; 
 	
     /** Called when the activity is first created. */
     @Override
@@ -71,8 +71,11 @@ public class WattDroid extends ListActivity {
                   public void onItemClick(AdapterView<?> parent, View view,
                       int position, long id) {
                     // When clicked, show a toast with the TextView text
-                    Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                        Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
+                    //    Toast.LENGTH_SHORT).show();
+                	 Intent sourceview = new Intent(view.getContext(), SourceView.class);
+                	 sourceview.putExtra("source", ((TextView) view).getText());
+      				 startActivity(sourceview);
                   }
                 });
               
@@ -80,12 +83,8 @@ public class WattDroid extends ListActivity {
          } catch (Exception e) {
               /* Display any Error to the GUI. */
               tv.setText("Whoops! WattDroid made a booboo!: " + e.getMessage());
+              this.setContentView(tv);
               Log.e(MY_DEBUG_TAG, "wattdroid", e);
          }
-         /* Display the TextView. */
-         //this.setContentView(tv);
     }
-    
-
-    
 }

@@ -19,6 +19,12 @@ public class ParsedExampleDataSet {
         this.extractedString = extractedString;
     }
     
+    public void setExtractedStringInnerContent(String extractedString) {
+    	Log.i("wattdroid", "adding sting from content " + extractedString);
+    	sourceList.add(extractedString);
+        //this.extractedString = extractedString;
+    }
+    
     public String[] getAllSources() {
     	return this.sourceList.toArray(new String[0]);
     }
@@ -39,8 +45,9 @@ public class ParsedExampleDataSet {
     	String allSources = "";
     	for (String source : sourceList) {
     		allSources += "\n"+ source;
+    		Log.d("wattdroid", "returning source..."+source);
     	}
-        return "ExtractedString = " + allSources;
+        return allSources;
     }
 }
 
