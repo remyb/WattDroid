@@ -19,6 +19,9 @@ import android.view.View;
 /**
  * WattDroid - Main WattDroid activity.
  * 
+ * @author Remy Baumgarten
+ * @author Kevin Chiogioji
+ * 
  */
 public class WattDroid extends ListActivity {
     /**
