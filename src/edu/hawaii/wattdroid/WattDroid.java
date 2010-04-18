@@ -66,11 +66,9 @@ public class WattDroid extends ListActivity {
 	    Log.d("wattdroid", "I just placed sources into an array");
 	    setListAdapter(new ArrayAdapter<String>(this, R.layout.item,
 		    sources));
-
-	    // For Debugging Purposes
 	    
 	    /* Following is for Toast temp spot, change this to use new activity */	    
-	    /*ListView lv = getListView();
+	    ListView lv = getListView();
 	    lv.setTextFilterEnabled(true);
 	    lv.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view,
@@ -84,7 +82,7 @@ public class WattDroid extends ListActivity {
 		    sourceview.putExtra("source", ((TextView) view).getText());
 		    startActivity(sourceview);
 		}
-	    });*/
+	    });
 
 	} catch (Exception e) {
 	    /* Display any Error to the GUI. */
