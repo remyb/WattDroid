@@ -17,14 +17,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
 
 /**
- * ListView is a ViewGroup that creates a list of scrollable items. The list
- * items are automatically inserted to the list using a ListAdapter.
- * http://developer.android.com/resources/tutorials/views/hello-listview.html
- * Code adapted from:
- * http://www.warriorpoint.com/blog/2009/07/19/android-simplified-source-
- * code-for-parsing-and-working-with-xml-data-and-web-services-in-android/
+ * WattDroid - Main WattDroid activity.
+ * 
  */
 public class WattDroid extends ListActivity {
+    /**
+     * Debug tag for log writing.
+     */
     private final String MY_DEBUG_TAG = "wattdroid";
 
     /** Called when the activity is first created. */
