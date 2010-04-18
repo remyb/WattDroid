@@ -7,9 +7,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
 
 /**
- * Handler for XML - this is called by SAX.
- * This is used to handle and traverse/grep certain
- * elements/content in an XML file.
+ * Handler for XML - this is called by SAX. This is used to handle and
+ * traverse/grep certain elements/content in an XML file.
  * 
  */
 public class ExampleHandler extends DefaultHandler {
@@ -53,9 +52,13 @@ public class ExampleHandler extends DefaultHandler {
 
     /**
      * Called when opening tags like: <tag> provide attributes.
-     * @param namespaceURI - namespace
-     * @param localName - xml tag
-     * @param atts = attributes
+     * 
+     * @param namespaceURI
+     *            - namespace
+     * @param localName
+     *            - xml tag
+     * @param atts
+     *            - attributes
      * 
      */
     @Override
@@ -79,9 +82,13 @@ public class ExampleHandler extends DefaultHandler {
 
     /**
      * Called on closing tags like: </tag>.
-     * @param namespaceURI - namespace
-     * @param localName - xml tag
-     * @param atts = attributes
+     * 
+     * @param namespaceURI
+     *            - namespace
+     * @param localName
+     *            - xml tag
+     * @param atts
+     *            = attributes
      */
     @Override
     public void endElement(String namespaceURI, String localName, String qName)
@@ -101,9 +108,13 @@ public class ExampleHandler extends DefaultHandler {
 
     /**
      * Called on the following structure: <tag>characters</tag>.
-     * @param ch - characters in tag
-     * @param start - where to start
-     * @param length - how many to copy
+     * 
+     * @param ch
+     *            - characters in tag
+     * @param start
+     *            - where to start
+     * @param length
+     *            - how many to copy
      */
     @Override
     public void characters(char ch[], int start, int length) {

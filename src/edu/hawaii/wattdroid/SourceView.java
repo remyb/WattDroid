@@ -10,25 +10,29 @@ import android.util.Log;
 import android.widget.TextView;
 import android.app.Activity;
 
+/**
+ * Sourceview - displays sources in a list context. Uses the list adaptor and
+ * presents list of xml sources from a wattdepot server.
+ * 
+ */
 public class SourceView extends Activity {
+
+    /**
+     * Debug tag for log writing.
+     */
     private final String MY_DEBUG_TAG = "wattdroid";
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
 	super.onCreate(icicle);
-
-	/* Create a new TextView to display the parsingresult later. */
 	TextView tv = new TextView(this);
 	Bundle extras = getIntent().getExtras();
 	String source = "";
 	if (extras != null) {
 	    source = extras.getString("source");
 	}
-
 	try {
 	    /* Create a URL we want to load some xml-data from. */
-
 	    URL url = new URL("http://209.249.222.18:8182/wattdepot/sources/"
 		    + source);
 
@@ -50,7 +54,7 @@ public class SourceView extends Activity {
 	    ParsedExampleDataSet parsedExampleDataSet = myExampleHandler
 		    .getParsedData();
 
-	    /* Set the result to be displayed in our GUI. */
+	    /* Set the result to be displayed in our GUI. Removed for testing */
 	    // tv.setText(parsedExampleDataSet.toString());
 	    // String[] sources = parsedExampleDataSet.getAllSources();
 	    Log.d("wattdroid", "Displaying Source XML");
