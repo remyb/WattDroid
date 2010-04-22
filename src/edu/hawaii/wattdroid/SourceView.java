@@ -33,7 +33,7 @@ public class SourceView extends Activity {
     }
     try {
       /* Create a URL we want to load some xml-data from. */
-      URL url = new URL("http://209.249.222.18:8182/wattdepot/sources/" + source);
+      URL url = new URL("http://server.wattdepot.org:8182/wattdepot/sources/" + source);
 
       /* Get a SAXParser from the SAXPArserFactory. */
       SAXParserFactory spf = SAXParserFactory.newInstance();
