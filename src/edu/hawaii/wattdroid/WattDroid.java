@@ -87,7 +87,7 @@ public class WattDroid extends ListActivity {
       // tv.setText(parsedExampleDataSet.toString());
       String[] sources = parsedExampleDataSet.getAllSources();
       Log.d("wattdroid", "I just placed sources into an array");
-      setListAdapter(new ArrayAdapter<String>(this, R.layout.row, R.id.listtext, sources));
+      setListAdapter(new ArrayAdapter<String>(this, R.layout.item, sources));
 
       /* Following is for Toast temp spot, change this to use new activity */
       ListView lv = getListView();
