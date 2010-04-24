@@ -60,7 +60,7 @@ public class WattDroid extends ListActivity {
       if (text.compareTo("<undefined>") == 0) {
         Toast.makeText(getApplicationContext(), "Please set a URL in the Preferences",
             Toast.LENGTH_SHORT).show();
-        Intent prefActivity = new Intent(this, SourceView.class);
+        Intent prefActivity = new Intent(this, EditPreferences.class);
         startActivity(prefActivity);
       }
       // Test URL: http://server.wattdepot.org:8182/wattdepot/sources.xml
