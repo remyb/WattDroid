@@ -7,13 +7,18 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView; //import android.widget.Toast;
+import android.widget.Toast; //import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 /**
@@ -28,6 +33,9 @@ public class WattDroid extends ListActivity {
    * Debug tag for log writing.
    */
   private final String MY_DEBUG_TAG = "wattdroid";
+  private static final int EDIT_ID = Menu.FIRST + 2;
+  private String text = null;
+  private String list = null;
 
   /** Called when the activity is first created. */
   @Override
@@ -36,10 +44,27 @@ public class WattDroid extends ListActivity {
 
     /* Create a new TextView to display the parsingresult later. */
     TextView tv = new TextView(this);
+    // text = (TextView) findViewById(R.string.text);
+    // list = (TextView) findViewById(R.string.list);
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    text = prefs.getString("text", "<undefined>");
+    list = prefs.getString("list", "<undefined>");
 
     try {
       /* Create a URL we want to load some xml-data from. */
-      URL url = new URL("http://server.wattdepot.org:8182/wattdepot/sources.xml");
+      Log.e("wattdroid", "URL from Prefs is: " + text.toString());
+
+      Toast
+          .makeText(getApplicationContext(), prefs.getString("text", "<unset>"), Toast.LENGTH_LONG)
+          .show();
+      if (text.compareTo("<undefined>") == 0) {
+        Toast.makeText(getApplicationContext(), "Please set a URL in the Preferences",
+            Toast.LENGTH_SHORT).show();
+        Intent prefActivity = new Intent(this, SourceView.class);
+        startActivity(prefActivity);
+      }
+      // Test URL: http://server.wattdepot.org:8182/wattdepot/sources.xml
+      URL url = new URL(text);
 
       /* Get a SAXParser from the SAXPArserFactory. */
       SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -62,17 +87,13 @@ public class WattDroid extends ListActivity {
       // tv.setText(parsedExampleDataSet.toString());
       String[] sources = parsedExampleDataSet.getAllSources();
       Log.d("wattdroid", "I just placed sources into an array");
-      setListAdapter(new ArrayAdapter<String>(this, R.layout.row, R.id.text, sources));
+      setListAdapter(new ArrayAdapter<String>(this, R.layout.row, R.id.listtext, sources));
 
       /* Following is for Toast temp spot, change this to use new activity */
       ListView lv = getListView();
       lv.setTextFilterEnabled(true);
       lv.setOnItemClickListener(new OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          // When clicked, show a toast with the TextView text
-          // Toast.makeText(getApplicationContext(), ((TextView)
-          // view).getText(),
-          // Toast.LENGTH_SHORT).show();
           Intent sourceview = new Intent(view.getContext(), SourceView.class);
           sourceview.putExtra("source", ((TextView) view).getText());
           startActivity(sourceview);
@@ -81,10 +102,43 @@ public class WattDroid extends ListActivity {
 
     }
     catch (Exception e) {
-      /* Display any Error to the GUI. */
-      tv.setText("Whoops! WattDroid made a booboo!:" + e.getMessage());
-      this.setContentView(tv);
+      Toast.makeText(getApplicationContext(), "Please set a URL in the Preferences",
+          Toast.LENGTH_SHORT).show();
+      Intent prefActivity = new Intent(this, EditPreferences.class);
+      startActivity(prefActivity);
+      /* Display any Error to the GUI. Will expand soon */
+      // tv.setText("Please check your URL and Internet Connection and try again");
+      // this.setContentView(tv);
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
   }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.icon)
+        .setAlphabeticShortcut('e');
+
+    return (super.onCreateOptionsMenu(menu));
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case EDIT_ID:
+      startActivity(new Intent(this, EditPreferences.class));
+      return (true);
+    }
+    return (super.onOptionsItemSelected(item));
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    text = prefs.getString("text", "<unset>");
+    list = prefs.getString("list", "<unset>");
+  }
+
 }

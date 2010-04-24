@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="cities">
+		<item>Chicago</item>
+		<item>Honolulu</item>
+		<item>Some Town</item>
+		<item>Barnport</item>
+		<item>Wilmette</item>
+		<item>Scantonville</item>
+		<item>New York</item>
+		<item>Watt Town</item>
+		<item>Harrisburg</item>
+	</string-array>
+</resources>
