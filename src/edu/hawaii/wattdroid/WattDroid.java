@@ -41,7 +41,7 @@ public class WattDroid extends ListActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    setContentView(R.layout.main);
     /* Create a new TextView to display the parsingresult later. */
     TextView tv = new TextView(this);
     // text = (TextView) findViewById(R.string.text);
@@ -115,7 +115,7 @@ public class WattDroid extends ListActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.icon)
+    menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.misc)
         .setAlphabeticShortcut('e');
 
     return (super.onCreateOptionsMenu(menu));
