@@ -1,7 +1,6 @@
 package edu.hawaii.wattdroid;
 
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
@@ -26,18 +25,29 @@ public class SourceView extends Activity {
   private final String MY_DEBUG_TAG = "wattdroid";
   private String source = null;
   private TextView tv;
-  // Need handler for callbacks to the UI thread
+  /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
 
   /**
-   * Inner class thats purpose is handler messages from threads
+   * Inner class of Sourceview thats purpose is to handle messages from threads and act upon them,
+   * ie calling updateUI
    */
   class RefreshHandler extends Handler {
+    /**
+     * handleMessage - This is called in order to update the UI in a thread.
+     * 
+     * @param msg - an empty message that triggers the update
+     */
     @Override
     public void handleMessage(Message msg) {
       SourceView.this.updateUI();
     }
 
+    /**
+     * Delays refresh for the param amount of time in ms.
+     * 
+     * @param delayMillis - num of ms to delay
+     */
     public void sleep(long delayMillis) {
       this.removeMessages(0);
       if (!isFinishing()) {
@@ -46,6 +56,9 @@ public class SourceView extends Activity {
     }
   };
 
+  /**
+   * updateUI - The background Thread that processes new XML information to display in the textview.
+   */
   private void updateUI() {
 
     try {
@@ -77,14 +90,12 @@ public class SourceView extends Activity {
       tv.setText("Whoops! WattDroid made a booboo!: " + e.getMessage());
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
-
     mRedrawHandler.sleep(10000);
   }
 
   @Override
   public void onCreate(Bundle icicle) {
     super.onCreate(icicle);
-    // tv = new TextView(this);
     setContentView(R.layout.sources);
     this.tv = (TextView) this.findViewById(R.id.sourcetext);
     Bundle extras = getIntent().getExtras();
@@ -93,6 +104,7 @@ public class SourceView extends Activity {
     }
     updateUI();
   }
+
   @Override
   public void onStop() {
     super.onStop();

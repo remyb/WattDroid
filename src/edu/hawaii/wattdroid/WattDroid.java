@@ -35,21 +35,14 @@ public class WattDroid extends ListActivity {
   private final String MY_DEBUG_TAG = "wattdroid";
   private static final int EDIT_ID = Menu.FIRST + 2;
   private String text = null;
-  private String list = null;
 
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    /* Create a new TextView to display the parsingresult later. */
-    TextView tv = new TextView(this);
-    // text = (TextView) findViewById(R.string.text);
-    // list = (TextView) findViewById(R.string.list);
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     text = prefs.getString("text", "<undefined>");
-    list = prefs.getString("list", "<undefined>");
-
     try {
       /* Create a URL we want to load some xml-data from. */
       Log.e("wattdroid", "URL from Prefs is: " + text.toString());
@@ -78,13 +71,11 @@ public class WattDroid extends ListActivity {
 
       /* Parse the xml-data from our URL. */
       xr.parse(new InputSource(url.openStream()));
-      /* Parsing has finished. */
 
       /* Our ExampleHandler now provides the parsed data to us. */
       ParsedExampleDataSet parsedExampleDataSet = myExampleHandler.getParsedData();
 
       /* Set the result to be displayed in our GUI. */
-      // tv.setText(parsedExampleDataSet.toString());
       String[] sources = parsedExampleDataSet.getAllSources();
       Log.d("wattdroid", "I just placed sources into an array");
       setListAdapter(new ArrayAdapter<String>(this, R.layout.item, sources));
@@ -106,9 +97,6 @@ public class WattDroid extends ListActivity {
           Toast.LENGTH_SHORT).show();
       Intent prefActivity = new Intent(this, EditPreferences.class);
       startActivity(prefActivity);
-      /* Display any Error to the GUI. Will expand soon */
-      // tv.setText("Please check your URL and Internet Connection and try again");
-      // this.setContentView(tv);
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
   }
@@ -134,12 +122,8 @@ public class WattDroid extends ListActivity {
   @Override
   public void onResume() {
     super.onResume();
-
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
     text = prefs.getString("text", "<unset>");
-    list = prefs.getString("list", "<unset>");
   }
-
 
 }
