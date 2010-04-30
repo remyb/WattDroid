@@ -47,6 +47,16 @@ public class ParsedExampleDataSet {
   }
 
   /**
+   * Returns the source list.
+   * 
+   * @return list<string> source information
+   */
+  
+  public List<String> getSourceList() {
+    return this.sourceList;  
+  }
+  
+  /**
    * Provides a list of all sources.
    * 
    * @return list of source

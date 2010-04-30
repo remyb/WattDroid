@@ -16,4 +16,5 @@
 	<string name="checkbox2">checkbox2</string>
 	<string name="text">text</string>
 	<string name="list">list</string>
+	<string name="source">Source Information</string>
 </resources>

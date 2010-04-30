@@ -19,7 +19,7 @@
 			android:label="@string/about_title" >		
 		</activity>
 		<activity android:name=".SourceView" 
-			android:label="@string/about_title" >		
+			android:label="@string/source" >		
 		</activity>
 		<activity android:name=".EditPreferences" android:label="@string/app_name">
 		</activity>
