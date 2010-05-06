@@ -2,6 +2,7 @@ package edu.hawaii.wattdroid;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
@@ -26,6 +27,8 @@ public class SourceView extends Activity {
   private final String MY_DEBUG_TAG = "wattdroid";
   private String source = null;
   private TextView tv;
+  private List<String> information = new ArrayList<String>();
+  
   /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
 
@@ -88,9 +91,20 @@ public class SourceView extends Activity {
         /* Our ExampleHandler now provides the parsed data to us. */
         parsedExampleDataSet = myExampleHandler.getParsedData();
         displayStats += parsedExampleDataSet.toString();
+        
+        information.addAll(parsedExampleDataSet.getSourceList());
       }
+      
       /* Set the result to be displayed in our GUI. */
-      tv.setText(displayStats);
+//      tv.setText(displayStats);
+      tv.setText("Source: "+ information.get(0)+"\n");
+//      tv.append("\n1: "+information.get(1));
+//      tv.append("\n2: "+information.get(2));
+//      tv.append("\n3: "+information.get(3));
+//      tv.append("\n4: "+information.get(4));
+      tv.append("\nLocation: "+information.get(5)+"\n");
+      tv.append("\nMeter Desc: "+information.get(6)+"\n");
+      tv.append("\nReading: "+information.get(7) +" Watts");
       Log.d("wattdroid", "Displaying Source XML");
     }
     catch (Exception e) {
