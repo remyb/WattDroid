@@ -35,6 +35,7 @@ public class WattDroid extends ListActivity {
   private final String MY_DEBUG_TAG = "wattdroid";
   private static final int EDIT_ID = Menu.FIRST + 2;
   private String text = null;
+  private String delay = null;
 
   /** Called when the activity is first created. */
   @Override
@@ -43,6 +44,8 @@ public class WattDroid extends ListActivity {
     setContentView(R.layout.main);
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     text = prefs.getString("text", "<undefined>");
+    delay = prefs.getString("delay", "30");
+    
     try {
       /* Create a URL we want to load some xml-data from. */
       Log.e("wattdroid", "URL from Prefs is: " + text.toString());
@@ -80,13 +83,14 @@ public class WattDroid extends ListActivity {
       Log.d("wattdroid", "I just placed sources into an array");
       setListAdapter(new ArrayAdapter<String>(this, R.layout.item, sources));
 
-      /* Following is for Toast temp spot, change this to use new activity */
+      /* Sets up listener for action upon source selection */
       ListView lv = getListView();
       lv.setTextFilterEnabled(true);
       lv.setOnItemClickListener(new OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
           Intent sourceview = new Intent(view.getContext(), SourceView.class);
           sourceview.putExtra("source", ((TextView) view).getText());
+          sourceview.putExtra("delay", delay);      
           startActivity(sourceview);
         }
       });

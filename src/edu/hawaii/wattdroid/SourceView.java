@@ -9,9 +9,11 @@ import org.xml.sax.XMLReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.app.Activity;
+import android.content.SharedPreferences;
 
 /**
  * Sourceview - displays sources in a list context. Uses the list adaptor and presents list of xml
@@ -25,9 +27,11 @@ public class SourceView extends Activity {
    */
   private final String MY_DEBUG_TAG = "wattdroid";
   private String source = null;
+  //private Integer delay = null;
   private TextView tv;
   /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
+  
 
   /**
    * Inner class of Sourceview thats purpose is to handle messages from threads and act upon them,
@@ -61,7 +65,8 @@ public class SourceView extends Activity {
    * updateUI - The background Thread that processes new XML information to display in the textview.
    */
   private void updateUI() {
-    mRedrawHandler.sleep(1000);
+    //mRedrawHandler.sleep(Integer.getInteger(delay) * 1000);
+    mRedrawHandler.sleep(10000);
     try {
       /* Create a REST locations we want to load xml-data from. */
       ArrayList<URL> urlList = new ArrayList<URL>();
@@ -72,12 +77,14 @@ public class SourceView extends Activity {
       String displayStats = new String();
       /* Loop through both urls to get information and append to displayStats */
       for (URL url : urlList) {
+        
         /* Get a SAXParser from the SAXPArserFactory. */
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser sp = spf.newSAXParser();
 
         /* Get the XMLReader of the SAXParser we created. */
         XMLReader xr = sp.getXMLReader();
+        
         /* Create a new ContentHandler and apply it to the XML-Reader */
         ExampleHandler myExampleHandler = new ExampleHandler();
         xr.setContentHandler(myExampleHandler);
@@ -91,11 +98,11 @@ public class SourceView extends Activity {
       }
       /* Set the result to be displayed in our GUI. */
       tv.setText(displayStats);
-      Log.d("wattdroid", "Displaying Source XML");
+      //Log.i("wattdroid", "Displaying Source XML " + delay + " <<DELAY");
     }
     catch (Exception e) {
       /* Display any Error to the GUI. */
-      tv.setText("Error" + e.getMessage());
+      tv.setText("Error:  " + e.getMessage());
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
     
@@ -109,6 +116,7 @@ public class SourceView extends Activity {
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       source = extras.getString("source");
+      //delay = extras.getInt("delay");
     }
     updateUI();
   }
