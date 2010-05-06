@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="cities">
-		<item>Chicago</item>
-		<item>Honolulu</item>
-		<item>Some Town</item>
-		<item>Barnport</item>
-		<item>Wilmette</item>
-		<item>Scantonville</item>
-		<item>New York</item>
-		<item>Watt Town</item>
-		<item>Harrisburg</item>
+	<string-array name="delay_key">
+		<item>5 Seconds</item>
+		<item>10 Seconds</item>
+		<item>15 Seconds</item>
+		<item>30 Seconds</item>
+		<item>1 Minute</item>
+		<item>2 Minutes</item>
+		<item>5 Minutes</item>
+	</string-array>
+	<string-array name="delay_value">
+		<item>5000</item>
+		<item>10000</item>
+		<item>15000</item>
+		<item>30000</item>
+		<item>60000</item>
+		<item>120000</item>
+		<item>300000</item>
 	</string-array>
 </resources>

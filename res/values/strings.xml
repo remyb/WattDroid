@@ -15,6 +15,6 @@
 	<string name="ringtone">ringtone</string>
 	<string name="checkbox2">checkbox2</string>
 	<string name="text">text</string>
-	<string name="list">list</string>
+	<string name="delay">delay</string>
 	<string name="source">Source Information</string>
 </resources>

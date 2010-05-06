@@ -9,10 +9,12 @@
 			android:dialogTitle="Full server sources.xml URL"
 		/>
 		<ListPreference
-			android:key="list"
-			android:title="Location Selection"
-			android:summary="Click to pop up a list to choose from"
-			android:entries="@array/cities"
-			android:dialogTitle="Choose a Sensor Location" />
+			android:key="delay"
+			android:title="Update Interval"
+			android:summary="Choose an Update Frequency"
+			android:entries="@array/delay_key"
+			android:entryValues="@array/delay_value"
+			android:dialogTitle="Choose an Update Frequency" />
 	</PreferenceCategory>
 </PreferenceScreen>
+
