@@ -70,7 +70,8 @@ public class ExampleHandler extends DefaultHandler {
     }
     else if (localName.equals("Name") || localName.equals("Owner") || localName.equals("Public")
         || localName.equals("Virtual") || localName.equals("Coordinates")
-        || localName.equals("Location") || localName.equals("Description")) {
+        || localName.equals("Location") || localName.equals("Description")
+        || localName.equals("TotalSensorDatas")) {
       Log.d("wattdroid", "I found a Public...");
       this.in_mytag = true;
     }
@@ -85,7 +86,7 @@ public class ExampleHandler extends DefaultHandler {
    */
   @Override
   public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-    if (localName.equals("SourceIndex")) {
+    if (localName.equals("SourceIndex") || localName.equals("SourceSummary")) {
       this.in_outertag = false;
     }
     else if (localName.equals("SourceRef")) {
@@ -93,7 +94,8 @@ public class ExampleHandler extends DefaultHandler {
     }
     else if (localName.equals("Name") || localName.equals("Owner") || localName.equals("Public")
         || localName.equals("Virtual") || localName.equals("Coordinates")
-        || localName.equals("Location") || localName.equals("Description")) {
+        || localName.equals("Location") || localName.equals("Description")
+        || localName.equals("TotalSensorDatas")) {
       this.in_mytag = false;
     }
   }
