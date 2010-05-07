@@ -14,7 +14,11 @@ public class ParsedExampleDataSet {
   private String extractedString = null;
   private int extractedInt = 0;
   private List<String> sourceList = new ArrayList<String>();
-
+  private String name = null;
+  private String location = null;
+  private String description = null;
+  private String totalSensorData = null;
+  
   /**
    * Getter.
    * 
@@ -44,6 +48,38 @@ public class ParsedExampleDataSet {
     Log.i("wattdroid", "adding sting from content " + extractedString);
     sourceList.add(extractedString);
     // this.extractedString = extractedString;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  public void setLocation(String location) {
+    this.location = location;
+  }
+  
+  public void setDescription(String description) {
+    this.description = description;
+  }
+  
+  public void setTotalSensorData(String totalSensorData) {
+    this.totalSensorData = totalSensorData;
+  }
+  
+  public String getName() {
+    return name;
+  }
+  
+  public String getLocation() {
+    return this.location;
+  }
+  
+  public String getDescription() {
+    return this.description;
+  }
+  
+  public String getTotalSensorData() {
+    return this.totalSensorData;
   }
 
   /**

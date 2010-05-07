@@ -17,7 +17,12 @@ public class ExampleHandler extends DefaultHandler {
    */
   private boolean in_outertag = false;
   private boolean in_innertag = false;
-  private boolean in_mytag = false;
+  private boolean name = false;
+  private boolean location = false;
+  private boolean description = false;
+  private boolean timestamp = false;
+  private boolean totalSensorData = false;
+  private boolean coords = false;
 
   /**
    * The parsed data.
@@ -68,12 +73,17 @@ public class ExampleHandler extends DefaultHandler {
       String attrValue = atts.getValue("Href");
       myParsedExampleDataSet.setExtractedString(attrValue);
     }
-    else if (localName.equals("Name") || localName.equals("Owner") || localName.equals("Public")
-        || localName.equals("Virtual") || localName.equals("Coordinates")
-        || localName.equals("Location") || localName.equals("Description")
-        || localName.equals("TotalSensorDatas")) {
-      Log.d("wattdroid", "I found a Public...");
-      this.in_mytag = true;
+    else if (localName.equals("Name")) {
+      name = true;
+    }
+    else if (localName.equals("Location")) {
+      location = true;
+    }
+    else if (localName.equals("Description")) {
+      description = true;
+    }
+    else if (localName.equals("TotalSensorData")) {
+      totalSensorData = true;
     }
   }
 
@@ -86,17 +96,24 @@ public class ExampleHandler extends DefaultHandler {
    */
   @Override
   public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+    
     if (localName.equals("SourceIndex") || localName.equals("SourceSummary")) {
       this.in_outertag = false;
     }
     else if (localName.equals("SourceRef")) {
       this.in_innertag = false;
+    }   
+    else if (localName.equals("Name")) {
+      name = false;
     }
-    else if (localName.equals("Name") || localName.equals("Owner") || localName.equals("Public")
-        || localName.equals("Virtual") || localName.equals("Coordinates")
-        || localName.equals("Location") || localName.equals("Description")
-        || localName.equals("TotalSensorDatas")) {
-      this.in_mytag = false;
+    else if (localName.equals("Location")) {
+      location = false;
+    }
+    else if (localName.equals("Description")) {
+      description = false;
+    }
+    else if (localName.equals("TotalSensorData")) {
+      totalSensorData = false;
     }
   }
 
@@ -109,10 +126,27 @@ public class ExampleHandler extends DefaultHandler {
    */
   @Override
   public void characters(char ch[], int start, int length) {
-    Log.d("wattdroid", "I found source content to parse...");
-    if (this.in_mytag) {
-      Log.d("wattdroid", "Found mytag...setting extractedStringInnerContent...");
+    //Log.d("wattdroid", "I found source content to parse...");
+    String test = new String(ch, start, length);
+    if (in_innertag) {
+      
       myParsedExampleDataSet.setExtractedStringInnerContent(new String(ch, start, length));
+    }
+    else if (name) {
+      myParsedExampleDataSet.setName(new String(ch, start, length));
+      Log.d("wattdroid", "I set the name " + test);
+    }
+    else if (location) {
+      myParsedExampleDataSet.setLocation(new String(ch, start, length));
+      Log.d("wattdroid", "I set the location " + test);
+    }
+    else if (description) {
+      myParsedExampleDataSet.setDescription(new String(ch, start, length));
+      Log.d("wattdroid", "I set the desc " + test);
+    }
+    else if (totalSensorData) {
+      myParsedExampleDataSet.setTotalSensorData(new String(ch, start, length));
+      Log.d("wattdroid", "I set the sensordata " + test);
     }
   }
 }

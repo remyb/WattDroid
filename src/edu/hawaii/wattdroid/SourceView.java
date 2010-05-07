@@ -74,7 +74,7 @@ public class SourceView extends Activity {
       /* Create a REST locations we want to load xml-data from. */
       ArrayList<URL> urlList = new ArrayList<URL>();
       urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source));
-      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source
+      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source + "/sensordata/latest"
           + "/summary"));
       ParsedExampleDataSet parsedExampleDataSet = null;
       String displayStats = new String();
@@ -97,14 +97,20 @@ public class SourceView extends Activity {
 
         /* Our ExampleHandler now provides the parsed data to us. */
         parsedExampleDataSet = myExampleHandler.getParsedData();
-        displayStats += parsedExampleDataSet.toString();
+        if ((displayStats += "Name: " + parsedExampleDataSet.getName()) != null);
+        if ((displayStats += "\nLocation: " + parsedExampleDataSet.getLocation()) != null);
+        if ((displayStats += "\nDescription: " + parsedExampleDataSet.getDescription()) != null);
         
-        information.addAll(parsedExampleDataSet.getSourceList());
+        //information.addAll(parsedExampleDataSet.getSourceList());
       }
       
       /* Set the result to be displayed in our GUI. */
-//      tv.setText(displayStats);
-      tv.setText("Source: "+ information.get(0)+"\n");
+      tv.setText(displayStats);
+      
+      //tv.setText("Source: " + parsedExampleDataSet.getName());
+      
+      /*
+      t
 //      tv.append("\n1: "+information.get(1));
 //      tv.append("\n2: "+information.get(2));
 //      tv.append("\n3: "+information.get(3));
@@ -112,11 +118,12 @@ public class SourceView extends Activity {
       tv.append("\nLocation: "+information.get(5)+"\n");
       tv.append("\nMeter Desc: "+information.get(6)+"\n");
       tv.append("\nReading: "+information.get(7) +" Watts");
-      Log.d("wattdroid", "Displaying Source XML");
+      information.clear();
+      */
     }
     catch (Exception e) {
       /* Display any Error to the GUI. */
-      tv.setText("Error:  " + e.getMessage());
+      //tv.setText("Error:  " + e.getMessage());
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
     
