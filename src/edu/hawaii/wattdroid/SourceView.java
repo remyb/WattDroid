@@ -2,7 +2,6 @@ package edu.hawaii.wattdroid;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
@@ -29,8 +28,10 @@ public class SourceView extends Activity {
   private final String MY_DEBUG_TAG = "wattdroid";
   private String source = null;
   //private Integer delay = null;
-  private TextView tv;
-  private List<String> information = new ArrayList<String>();
+  private TextView reading;
+  private TextView name;
+  private TextView location;
+  private TextView meter;
   
   /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
@@ -74,8 +75,8 @@ public class SourceView extends Activity {
       /* Create a REST locations we want to load xml-data from. */
       ArrayList<URL> urlList = new ArrayList<URL>();
       urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source));
-      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source + "/sensordata/latest"
-          + "/summary"));
+//      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source + "/sensordata/latest"
+//          + "/summary"));
       ParsedExampleDataSet parsedExampleDataSet = null;
       String displayStats = new String();
       /* Loop through both urls to get information and append to displayStats */
@@ -105,21 +106,11 @@ public class SourceView extends Activity {
       }
       
       /* Set the result to be displayed in our GUI. */
-      tv.setText(displayStats);
+      reading.setText("5647 Watts");
+      name.setText(parsedExampleDataSet.getName().toString());
+      location.setText(parsedExampleDataSet.getLocation().toString());
+      meter.setText(parsedExampleDataSet.getDescription().toString());
       
-      //tv.setText("Source: " + parsedExampleDataSet.getName());
-      
-      /*
-      t
-//      tv.append("\n1: "+information.get(1));
-//      tv.append("\n2: "+information.get(2));
-//      tv.append("\n3: "+information.get(3));
-//      tv.append("\n4: "+information.get(4));
-      tv.append("\nLocation: "+information.get(5)+"\n");
-      tv.append("\nMeter Desc: "+information.get(6)+"\n");
-      tv.append("\nReading: "+information.get(7) +" Watts");
-      information.clear();
-      */
     }
     catch (Exception e) {
       /* Display any Error to the GUI. */
@@ -133,7 +124,11 @@ public class SourceView extends Activity {
   public void onCreate(Bundle icicle) {
     super.onCreate(icicle);
     setContentView(R.layout.sources);
-    this.tv = (TextView) this.findViewById(R.id.sourcetext);
+    this.reading = (TextView) this.findViewById(R.id.energyreading);
+    this.name=(TextView) this.findViewById(R.id.sourcename);
+    this.location=(TextView) this.findViewById(R.id.location);
+    this.meter=(TextView) this.findViewById(R.id.meterinfo);
+    
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       source = extras.getString("source");

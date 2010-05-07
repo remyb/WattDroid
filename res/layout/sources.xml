@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<TextView xmlns:android="http://schemas.android.com/apk/res/android" 
-		android:id="@+id/sourcetext"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center_vertical"
-		android:textSize="24px"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="@drawable/energy"
+	>
+	<TextView 
+		android:id="@+id/energyreading"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:textSize="40px"
 		android:textColor="#FFFFFF"
-		android:background="@drawable/energy"/>
+		/>
+	<TableLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="10px"
+		>
+		<TableRow>
+			<TextView
+				android:layout_width="wrap_content"
+				android:text="Name: "
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>
+			<TextView
+				android:id="@+id/sourcename"
+				android:layout_width="wrap_content"
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>	
+		
+		</TableRow>
+		<TableRow>
+			<TextView
+				android:layout_width="wrap_content"
+				android:text="Location: "
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>
+			<TextView
+				android:id="@+id/location"
+				android:layout_width="wrap_content"
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>	
+		</TableRow>
+				<TableRow>
+			<TextView
+				android:layout_width="wrap_content"
+				android:text="Meter: "
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>
+			<TextView
+				android:id="@+id/meterinfo"
+				android:layout_width="wrap_content"
+				android:textColor="#FFFFFF"
+				android:textSize="18px"
+			/>	
+		</TableRow>		
+	</TableLayout>	
+</LinearLayout>		
