@@ -27,15 +27,14 @@ public class SourceView extends Activity {
    */
   private final String MY_DEBUG_TAG = "wattdroid";
   private String source = null;
-  //private Integer delay = null;
+  // private Integer delay = null;
   private TextView reading;
   private TextView name;
   private TextView location;
   private TextView meter;
-  
+
   /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
-  
 
   /**
    * Inner class of Sourceview thats purpose is to handle messages from threads and act upon them,
@@ -69,26 +68,25 @@ public class SourceView extends Activity {
    * updateUI - The background Thread that processes new XML information to display in the textview.
    */
   private void updateUI() {
-    //mRedrawHandler.sleep(Integer.getInteger(delay) * 1000);
+    // mRedrawHandler.sleep(Integer.getInteger(delay) * 1000);
     mRedrawHandler.sleep(10000);
     try {
       /* Create a REST locations we want to load xml-data from. */
       ArrayList<URL> urlList = new ArrayList<URL>();
       urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source));
-//      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source + "/sensordata/latest"
-//          + "/summary"));
+      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source
+          + "/sensordata/latest" + "/summary"));
       ParsedExampleDataSet parsedExampleDataSet = null;
-      String displayStats = new String();
       /* Loop through both urls to get information and append to displayStats */
       for (URL url : urlList) {
-        
+
         /* Get a SAXParser from the SAXPArserFactory. */
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser sp = spf.newSAXParser();
 
         /* Get the XMLReader of the SAXParser we created. */
         XMLReader xr = sp.getXMLReader();
-        
+
         /* Create a new ContentHandler and apply it to the XML-Reader */
         ExampleHandler myExampleHandler = new ExampleHandler();
         xr.setContentHandler(myExampleHandler);
@@ -98,26 +96,28 @@ public class SourceView extends Activity {
 
         /* Our ExampleHandler now provides the parsed data to us. */
         parsedExampleDataSet = myExampleHandler.getParsedData();
-        if ((displayStats += "Name: " + parsedExampleDataSet.getName()) != null);
-        if ((displayStats += "\nLocation: " + parsedExampleDataSet.getLocation()) != null);
-        if ((displayStats += "\nDescription: " + parsedExampleDataSet.getDescription()) != null);
-        
-        //information.addAll(parsedExampleDataSet.getSourceList());
+
+        /* Set the result to be displayed in our GUI. */
+        if (parsedExampleDataSet.getName().toString() != null) {
+          name.setText(parsedExampleDataSet.getName().toString());
+        }
+        if (parsedExampleDataSet.getLocation().toString() != null) {
+          location.setText(parsedExampleDataSet.getLocation().toString());
+        }
+        if (parsedExampleDataSet.getDescription().toString() != null) {
+          meter.setText(parsedExampleDataSet.getDescription().toString());
+        }
+        if (parsedExampleDataSet.getTotalSensorData().toString() != null) {
+          reading.setText(parsedExampleDataSet.getTotalSensorData());
+        }
+        else {
+          reading.setText("XML in different format Fix");
+        }
       }
-      
-      /* Set the result to be displayed in our GUI. */
-      reading.setText("5647 Watts");
-      name.setText(parsedExampleDataSet.getName().toString());
-      location.setText(parsedExampleDataSet.getLocation().toString());
-      meter.setText(parsedExampleDataSet.getDescription().toString());
-      
     }
     catch (Exception e) {
-      /* Display any Error to the GUI. */
-      //tv.setText("Error:  " + e.getMessage());
       Log.e(MY_DEBUG_TAG, "wattdroid", e);
     }
-    
   }
 
   @Override
@@ -125,14 +125,14 @@ public class SourceView extends Activity {
     super.onCreate(icicle);
     setContentView(R.layout.sources);
     this.reading = (TextView) this.findViewById(R.id.energyreading);
-    this.name=(TextView) this.findViewById(R.id.sourcename);
-    this.location=(TextView) this.findViewById(R.id.location);
-    this.meter=(TextView) this.findViewById(R.id.meterinfo);
-    
+    this.name = (TextView) this.findViewById(R.id.sourcename);
+    this.location = (TextView) this.findViewById(R.id.location);
+    this.meter = (TextView) this.findViewById(R.id.meterinfo);
+
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       source = extras.getString("source");
-      //delay = extras.getInt("delay");
+      // delay = extras.getInt("delay");
     }
     updateUI();
   }
@@ -141,5 +141,4 @@ public class SourceView extends Activity {
   public void onStop() {
     super.onStop();
   }
-
 }
