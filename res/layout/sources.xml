@@ -64,4 +64,12 @@
 			/>	
 		</TableRow>		
 	</TableLayout>	
+		<Button
+			android:id="@+id/map"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="View Map Location"
+			android:layout_marginTop="40px"
+			android:layout_gravity="center"
+		/>
 </LinearLayout>		
