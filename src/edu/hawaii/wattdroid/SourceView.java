@@ -9,11 +9,9 @@ import org.xml.sax.XMLReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.app.Activity;
-import android.content.SharedPreferences;
 
 /**
  * Sourceview - displays sources in a list context. Uses the list adaptor and presents list of xml
