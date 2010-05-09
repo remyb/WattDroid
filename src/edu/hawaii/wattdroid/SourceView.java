@@ -14,6 +14,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.widget.Button;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * Sourceview - displays sources in a list context. Uses the list adaptor and presents list of xml
@@ -32,6 +35,7 @@ public class SourceView extends Activity {
   private TextView name;
   private TextView location;
   private TextView meter;
+  private Button map;
 
   /** Need handler for call-backs to the UI thread **/
   private RefreshHandler mRedrawHandler = new RefreshHandler();
@@ -128,8 +132,18 @@ public class SourceView extends Activity {
     this.name = (TextView) this.findViewById(R.id.sourcename);
     this.location = (TextView) this.findViewById(R.id.location);
     this.meter = (TextView) this.findViewById(R.id.meterinfo);
+    this.map = (Button) this.findViewById(R.id.map); 
 
     Bundle extras = getIntent().getExtras();
+    
+    map.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+          Toast.makeText(getBaseContext(), 
+                  "Display Google Maps", 
+                  Toast.LENGTH_SHORT).show();
+      }
+    });
+    
     if (extras != null) {
       source = extras.getString("source");
       // delay = extras.getInt("delay");
