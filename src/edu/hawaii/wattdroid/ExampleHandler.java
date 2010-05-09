@@ -21,8 +21,10 @@ public class ExampleHandler extends DefaultHandler {
   private boolean location = false;
   private boolean description = false;
   private boolean timestamp = false;
-  private boolean totalSensorData = false;
+  private boolean foundValue = false;
   private boolean coords = false;
+  private boolean foundKey = false;
+  private boolean foundConsumedKey = false;
 
   /**
    * The parsed data.
@@ -65,7 +67,7 @@ public class ExampleHandler extends DefaultHandler {
   @Override
   public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
       throws SAXException {
-    if (localName.equals("SourceIndex")) {
+    if (localName.equals("SourceIndex") || localName.equals("SensorData")) {
       this.in_outertag = true;
     }
     else if (localName.equals("SourceRef")) {
@@ -82,8 +84,16 @@ public class ExampleHandler extends DefaultHandler {
     else if (localName.equals("Description")) {
       description = true;
     }
-    else if (localName.equals("TotalSensorData")) {
-      totalSensorData = true;
+    else if (localName.equals("Coordinates")) {
+      coords = true;
+    }
+    else if (localName.equals("Key")) {
+      Log.d("wattdroid", "I Found a Key");
+      foundKey = true;
+    }
+    else if (localName.equals("Value")) {
+      Log.d("wattdroid", "I Found a Value");
+      foundValue = true;
     }
   }
 
@@ -96,13 +106,13 @@ public class ExampleHandler extends DefaultHandler {
    */
   @Override
   public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-    
-    if (localName.equals("SourceIndex") || localName.equals("SourceSummary")) {
+
+    if (localName.equals("SourceIndex") || localName.equals("SensorData")) {
       this.in_outertag = false;
     }
     else if (localName.equals("SourceRef")) {
       this.in_innertag = false;
-    }   
+    }
     else if (localName.equals("Name")) {
       name = false;
     }
@@ -112,8 +122,16 @@ public class ExampleHandler extends DefaultHandler {
     else if (localName.equals("Description")) {
       description = false;
     }
-    else if (localName.equals("TotalSensorData")) {
-      totalSensorData = false;
+    else if (localName.equals("Coordinates")) {
+      coords = false;
+    }
+    else if (localName.equals("Key")) {
+      foundKey = false;
+      Log.d("wattdroid", "I Dismissed a Key");
+    }
+    else if (localName.equals("Value")) {
+      foundValue = false;
+      Log.d("wattdroid", "I Dismissed a Value");
     }
   }
 
@@ -126,10 +144,8 @@ public class ExampleHandler extends DefaultHandler {
    */
   @Override
   public void characters(char ch[], int start, int length) {
-    //Log.d("wattdroid", "I found source content to parse...");
     String test = new String(ch, start, length);
     if (in_innertag) {
-      
       myParsedExampleDataSet.setExtractedStringInnerContent(new String(ch, start, length));
     }
     else if (name) {
@@ -144,9 +160,18 @@ public class ExampleHandler extends DefaultHandler {
       myParsedExampleDataSet.setDescription(new String(ch, start, length));
       Log.d("wattdroid", "I set the desc " + test);
     }
-    else if (totalSensorData) {
+    else if (coords) {
+      myParsedExampleDataSet.setCoords(new String(ch, start, length)); // set coords
+      Log.d("wattdroid", "I set the coords " + test);
+    }
+    else if (foundKey && test.equals("powerConsumed")) {
+      Log.d("wattdroid", "foundKey is True and powerConsumed is Current Tag");
+      foundConsumedKey = true;
+    }
+    else if (foundValue && foundConsumedKey) {
       myParsedExampleDataSet.setTotalSensorData(new String(ch, start, length));
-      Log.d("wattdroid", "I set the sensordata " + test);
+      foundConsumedKey = false;
+      Log.d("wattdroid", "****I set the sensordata " + test);
     }
   }
 }

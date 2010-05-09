@@ -18,6 +18,7 @@ public class ParsedExampleDataSet {
   private String location = null;
   private String description = null;
   private String totalSensorData = null;
+  private String coords = null;
   
   /**
    * Getter.
@@ -66,6 +67,10 @@ public class ParsedExampleDataSet {
     this.totalSensorData = totalSensorData;
   }
   
+  public void setCoords(String coords) {
+    this.coords = coords;
+  }
+  
   public String getName() {
     return name;
   }
@@ -82,6 +87,9 @@ public class ParsedExampleDataSet {
     return this.totalSensorData;
   }
 
+  public String getCoords() {
+    return this.coords;
+  }
   /**
    * Returns the source list.
    * 

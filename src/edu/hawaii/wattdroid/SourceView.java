@@ -1,23 +1,24 @@
 package edu.hawaii.wattdroid;
 
 import java.net.URL;
-import java.util.ArrayList;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 import android.app.Activity;
+import android.content.Intent;
 import android.widget.Button;
 import android.view.View;
 import android.widget.Toast;
 
 /**
- * Sourceview - displays sources in a list context. Uses the list adaptor and presents list of xml
+ * Sourceview - displays sources in a list context. Uses the list adaptor and presents list of XML
  * sources from a wattdepot server.
  * 
  */
@@ -33,6 +34,7 @@ public class SourceView extends Activity {
   private TextView name;
   private TextView location;
   private TextView meter;
+  private String coords;
   private Button map;
 
   /** Need handler for call-backs to the UI thread **/
@@ -68,53 +70,83 @@ public class SourceView extends Activity {
 
   /**
    * updateUI - The background Thread that processes new XML information to display in the textview.
+   * 
+   * @TODO - duplicate code, break it up
    */
   private void updateUI() {
     // mRedrawHandler.sleep(Integer.getInteger(delay) * 1000);
     mRedrawHandler.sleep(10000);
     try {
       /* Create a REST locations we want to load xml-data from. */
-      ArrayList<URL> urlList = new ArrayList<URL>();
-      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source));
-      urlList.add(new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source
-          + "/sensordata/latest" + "/summary"));
+      URL summaryURL = new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source);
+
+      ParsedExampleDataSet summaryData = null;
+      /* Loop through both urls to get information and append to displayStats */
+
+      /* Get a SAXParser from the SAXPArserFactory. */
+      SAXParserFactory saxSummaryParser = SAXParserFactory.newInstance();
+      SAXParser sp1 = saxSummaryParser.newSAXParser();
+
+      /* Get the XMLReader of the SAXParser we created. */
+      XMLReader xr = sp1.getXMLReader();
+
+      /* Create a new ContentHandler and apply it to the XML-Reader */
+      ExampleHandler myExampleHandler = new ExampleHandler();
+      xr.setContentHandler(myExampleHandler);
+
+      /* Parse the xml-data from our URL. */
+      xr.parse(new InputSource(summaryURL.openStream()));
+
+      /* Our ExampleHandler now provides the parsed data to us. */
+      summaryData = myExampleHandler.getParsedData();
+
+      /* Set the result to be displayed in our GUI. */
+      if (summaryData.getName().toString() != null) {
+        name.setText(summaryData.getName().toString());
+      }
+      if (summaryData.getLocation().toString() != null) {
+        location.setText(summaryData.getLocation().toString());
+      }
+      if (summaryData.getDescription().toString() != null) {
+        meter.setText(summaryData.getDescription().toString());
+      }
+      /* Set Coordinates */
+      if (summaryData.getCoords().toString() != null) {
+        this.coords = summaryData.getCoords().toString();
+      }
+    }
+    catch (Exception e) {
+      Log.e(MY_DEBUG_TAG, "wattdroid", e);
+    }
+
+    try {
+      /* Create a REST locations we want to load xml-data from. */
+      URL powerURL =
+          new URL("http://server.wattdepot.org:8186/wattdepot/sources/" + source
+              + "/sensordata/latest" + "/summary");
       ParsedExampleDataSet parsedExampleDataSet = null;
       /* Loop through both urls to get information and append to displayStats */
-      for (URL url : urlList) {
 
-        /* Get a SAXParser from the SAXPArserFactory. */
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        SAXParser sp = spf.newSAXParser();
+      /* Get a SAXParser from the SAXPArserFactory. */
+      SAXParserFactory spf = SAXParserFactory.newInstance();
+      SAXParser sp = spf.newSAXParser();
 
-        /* Get the XMLReader of the SAXParser we created. */
-        XMLReader xr = sp.getXMLReader();
+      /* Get the XMLReader of the SAXParser we created. */
+      XMLReader xr = sp.getXMLReader();
 
-        /* Create a new ContentHandler and apply it to the XML-Reader */
-        ExampleHandler myExampleHandler = new ExampleHandler();
-        xr.setContentHandler(myExampleHandler);
+      /* Create a new ContentHandler and apply it to the XML-Reader */
+      ExampleHandler myExampleHandler = new ExampleHandler();
+      xr.setContentHandler(myExampleHandler);
 
-        /* Parse the xml-data from our URL. */
-        xr.parse(new InputSource(url.openStream()));
+      /* Parse the xml-data from our URL. */
+      xr.parse(new InputSource(powerURL.openStream()));
 
-        /* Our ExampleHandler now provides the parsed data to us. */
-        parsedExampleDataSet = myExampleHandler.getParsedData();
+      /* Our ExampleHandler now provides the parsed data to us. */
+      parsedExampleDataSet = myExampleHandler.getParsedData();
 
-        /* Set the result to be displayed in our GUI. */
-        if (parsedExampleDataSet.getName().toString() != null) {
-          name.setText(parsedExampleDataSet.getName().toString());
-        }
-        if (parsedExampleDataSet.getLocation().toString() != null) {
-          location.setText(parsedExampleDataSet.getLocation().toString());
-        }
-        if (parsedExampleDataSet.getDescription().toString() != null) {
-          meter.setText(parsedExampleDataSet.getDescription().toString());
-        }
-        if (parsedExampleDataSet.getTotalSensorData().toString() != null) {
-          reading.setText(parsedExampleDataSet.getTotalSensorData());
-        }
-        else {
-          reading.setText("XML in different format Fix");
-        }
+      /* Set the result to be displayed in our GUI. */
+      if (parsedExampleDataSet.getTotalSensorData().toString() != null) {
+        reading.setText(parsedExampleDataSet.getTotalSensorData() + " watts");
       }
     }
     catch (Exception e) {
@@ -130,22 +162,30 @@ public class SourceView extends Activity {
     this.name = (TextView) this.findViewById(R.id.sourcename);
     this.location = (TextView) this.findViewById(R.id.location);
     this.meter = (TextView) this.findViewById(R.id.meterinfo);
-    this.map = (Button) this.findViewById(R.id.map); 
+    this.map = (Button) this.findViewById(R.id.map);
 
     Bundle extras = getIntent().getExtras();
-    
-    map.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-          Toast.makeText(getBaseContext(), 
-                  "Display Google Maps", 
-                  Toast.LENGTH_SHORT).show();
-      }
-    });
-    
     if (extras != null) {
       source = extras.getString("source");
       // delay = extras.getInt("delay");
     }
+
+    /*
+     * Geo Location URLS are not available on emulators by default to enable create a new AVD with
+     * the commmand: android create avd -n my_androidMAPS -t 3
+     */
+    map.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        if (coords.equals("0,0,0")) {
+          Toast.makeText(getBaseContext(),
+              "Server does not contain data for this location (0,0,0)", Toast.LENGTH_LONG).show();
+        }
+        else {
+          String uri = "geo:" + coords;
+          startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+        }
+      }
+    });
     updateUI();
   }
 

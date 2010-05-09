@@ -45,7 +45,7 @@ public class WattDroid extends ListActivity {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     text = prefs.getString("text", "<undefined>");
     delay = prefs.getString("delay", "30");
-    
+
     try {
       /* Create a URL we want to load some xml-data from. */
       Log.e("wattdroid", "URL from Prefs is: " + text.toString());
@@ -90,7 +90,7 @@ public class WattDroid extends ListActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
           Intent sourceview = new Intent(view.getContext(), SourceView.class);
           sourceview.putExtra("source", ((TextView) view).getText());
-          sourceview.putExtra("delay", delay);      
+          sourceview.putExtra("delay", delay);
           startActivity(sourceview);
         }
       });
