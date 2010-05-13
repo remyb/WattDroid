@@ -52,7 +52,7 @@
 				<TableRow>
 			<TextView
 				android:layout_width="wrap_content"
-				android:text="Meter: "
+				android:text="Sensor: "
 				android:textColor="#FFFFFF"
 				android:textSize="18px"
 			/>
